@@ -2,22 +2,25 @@
 #include <string.h>
 #include "data.h"
 
+// Program Macros
+#define MAXCHAR 1002
+
 // Helper function prototype
 char* strip(char *string);
 
 // Lexer function that returns tokens in an array of strings (array of chars)
-void lex(char *tokens[], FILE *input)
+void lex(FILE *input)
 {
     // Initialize variables
-    char *strbuffer = malloc(1001);
+    char *strbuffer = malloc(MAXCHAR);
     int loopcounter = 0;
     int strcounter = 0;
     int charcounter = 0;
     // Repeat reading each lines of the input until it reaches the end of the file
-    while (fgets(strbuffer, 1001, input) != NULL)
+    while (fgets(strbuffer, MAXCHAR, input) != NULL)
     {
         // Strip away uncessary whitespaces
-        strbuffer = strip(strbuffer);
+        strcpy(strbuffer, strip(strbuffer));
 
         // Repeat until the current chracter from the read line is a null terminator
         while (strbuffer[loopcounter] != '\0')
@@ -61,8 +64,7 @@ char* strip(char *string)
     int spacecounter = 0;
     int appendcounter = 0;
     int charcounter = 0;
-    char lastout = 'c';
-    char* output = malloc(1001);
+    char* output = malloc(MAXCHAR);
 
     // Loop through the entire given string
     for (int i = 0; string[i] != '\0'; i++)
@@ -75,7 +77,6 @@ char* strip(char *string)
             charcounter++;
             appendcounter++;
             spacecounter = 0;
-            lastout = string[i];
         }
         // Detects non trailing whitespace
         else if (string[i] == ' ' && spacecounter < 1)
@@ -84,14 +85,14 @@ char* strip(char *string)
             output[appendcounter + 1] = '\0';
             appendcounter++;
             spacecounter++;
-            lastout = string[i];
         }
     }
 
     // Checks if the last character is a space
-    if (lastout == ' ')
-    {
-        output[appendcounter - 1] = '\0';
-    }
+    if (output[appendcounter] == ' ')
+        output[appendcounter] = '\0';
+    // Checks if the first character is a space
+    if (output[0] == ' ')
+        output = &output[1];
     return output;
 }

@@ -13,11 +13,10 @@ FILE *output;
 
 int main(int argc, char *argv[])
 {
-    input = fopen(argv[1], "r");
-    output = fopen("out.css", "w");
-    lex(tokens, input);
-    printf("kuronami vandal\n");
-    for (int i = 0; tokens[i] != NULL; i++)
-        printf("%s ", tokens[i]);
-    parse(tokens);
+    FILE *input = fopen("style.pyss", "r");
+    lex(input);
+    for (int i = 0; i < 1000; i++)
+    {
+        printf("%s%i", tokens[i], i);
+    }
 }
