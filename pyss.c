@@ -1,7 +1,7 @@
+#include "data.h"
 #include "lexer.h"
 #include "parser.h"
 #include "writer.h"
-#include "data.h"
 
 #include <stdio.h>
 #include <stdlib.h>

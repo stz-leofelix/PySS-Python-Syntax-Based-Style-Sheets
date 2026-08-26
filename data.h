@@ -12,8 +12,7 @@ typedef struct NODE
     char *name;
     char *value;
     int ident;
-} 
-NODE;
+} NODE;
 
 NODE node;
 

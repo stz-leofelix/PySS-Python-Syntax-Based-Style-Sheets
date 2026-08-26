@@ -34,7 +34,7 @@ void lex(FILE *input)
                 loopcounter++;
             }
             // If the current character is a tab
-            else if (strbuffer[loopcounter] == '\t')
+            if (strbuffer[loopcounter] == '\t')
             {
                 tokens[strcounter][charcounter] = '\t';
                 tokens[strcounter][charcounter + 1] = '\0';
@@ -43,7 +43,7 @@ void lex(FILE *input)
                 strcounter++;
             }
             // If the current character is a space
-            else if (strbuffer[loopcounter] == ' ')
+            if (strbuffer[loopcounter] == ' ')
             {
                 strcounter++;
                 charcounter = 0;
