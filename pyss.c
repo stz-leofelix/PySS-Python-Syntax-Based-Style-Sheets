@@ -11,15 +11,13 @@ FILE *output;
 
 int main(int argc, char *argv[])
 {
-    input = fopen("C:\\code\\Practice\\pyss\\pyss.exe", "r");
-    if (input == NULL)
-    {
-        printf("Error opening file\n");
-        return 1;
-    }
+    input = fopen("C:\\code\\Practice\\pyss\\style.pyss", "r");
+    output = fopen("out.css", "w");
     lex(input);
-    for (int i = 0; i < 1000; i++)
-    {
-        printf("%s%i", tokens[i], i);
-    }
+    for (int i = 0; tokens[i] != "\0"; i++)
+    printf("[%s] ", tokens[i]);
+    parse();
+    write(output);
+    printf("succes\n");
+    return 0;
 }

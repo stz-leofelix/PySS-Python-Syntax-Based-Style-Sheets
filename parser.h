@@ -7,7 +7,7 @@ void parse_selector(void);
 void parse_property(void);
 
 // Parser function that reads the token given by lexer function and assign the values to a node accordinigly
-void parse(char *tokens[])
+void parse(void)
 {
     if (strcmp(tokens[0], "def") == 0)
     {

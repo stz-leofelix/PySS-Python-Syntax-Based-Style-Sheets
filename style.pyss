@@ -1,1 +1,5 @@
-hello
+def *
+    background-color: blue
+
+def hello
+    color: yellow

@@ -3,7 +3,7 @@
 #include "data.h"
 
 // Writer function that looks at node and fprintf accordingly
-void write(FILE *output, NODE node)
+void write(FILE *output)
 {
     if (strcmp(node.type, "selector") == 0)
     {
