@@ -17,5 +17,5 @@ typedef struct NODE
 NODE node;
 
 // Global Variables
-// Tokens returned by lexer.h
-char *tokens[1000];
+// Tokens lexer will use and other functions will obtain
+char tokens[1000][100];

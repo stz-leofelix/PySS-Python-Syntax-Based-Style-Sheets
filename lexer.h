@@ -3,7 +3,7 @@
 #include "data.h"
 
 // Program Macros
-#define MAXCHAR 1002
+#define MAXCHAR 1001
 
 // Helper function prototype
 char* strip(char *string);
