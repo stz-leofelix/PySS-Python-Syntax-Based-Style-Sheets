@@ -57,12 +57,15 @@ void lex(char *tokens[], FILE *input)
 // Helper lexer function that strips away uncessary whitespaces
 char* strip(char *string)
 {
-    int i = 0;
+    // Initialize variables
     int spacecounter = 0;
     int appendcounter = 0;
     int charcounter = 0;
+    char lastout = 'c';
     char* output = malloc(1001);
-    while (string[i] != '\0')
+
+    // Loop through the entire given string
+    for (int i = 0; string[i] != '\0'; i++)
     {
         // Detects valid characteres
         if (string[i] != ' ')
@@ -72,21 +75,23 @@ char* strip(char *string)
             charcounter++;
             appendcounter++;
             spacecounter = 0;
+            lastout = string[i];
         }
         // Detects non trailing whitespace
-        else if (string[i] == ' ')
+        else if (string[i] == ' ' && spacecounter < 1)
         {
             output[appendcounter] = string[i];
             output[appendcounter + 1] = '\0';
             appendcounter++;
             spacecounter++;
+            lastout = string[i];
         }
-        // Detects trailing space between words
-        if (string[i] == ' ' && charcounter > 0 && spacecounter > 1)
-        {
-            break;
-        }
-        i++;
-    } 
+    }
+
+    // Checks if the last character is a space
+    if (lastout == ' ')
+    {
+        output[appendcounter - 1] = '\0';
+    }
     return output;
 }
