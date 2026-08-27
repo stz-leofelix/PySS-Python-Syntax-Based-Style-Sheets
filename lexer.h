@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include "data.h"
 
 // Program Macros
@@ -16,6 +17,7 @@ void lex(FILE *input)
     int loopcounter = 0;
     int strcounter = 0;
     int charcounter = 0;
+
     // Repeat reading each lines of the input until it reaches the end of the file
     while (fgets(strbuffer, MAXCHAR, input) != NULL)
     {
@@ -26,21 +28,18 @@ void lex(FILE *input)
         while (strbuffer[loopcounter] != '\0')
         {
             // If the current character is a valid character
-            if (strbuffer[loopcounter] != ' ' && strbuffer[loopcounter] != '\t')
-            {   
+            if (strbuffer[loopcounter] != ' ')
+            {    
                 tokens[strcounter][charcounter] = strbuffer[loopcounter];
                 tokens[strcounter][charcounter + 1] = '\0';
                 charcounter++;
+                // If the character is a tab
+                if (strbuffer[loopcounter] == '\t')
+                {
+                    charcounter = 0;
+                    strcounter++;
+                }
                 loopcounter++;
-            }
-            // If the current character is a tab
-            else if (strbuffer[loopcounter] == '\t')
-            {
-                tokens[strcounter][charcounter] = '\t';
-                tokens[strcounter][charcounter + 1] = '\0';
-                charcounter = 0;
-                loopcounter++;
-                strcounter++;
             }
             // If the current character is a space
             else if (strbuffer[loopcounter] == ' ')
