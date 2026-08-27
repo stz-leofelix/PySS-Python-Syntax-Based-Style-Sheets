@@ -34,6 +34,7 @@ void lex(FILE *input, char *line)
             // If the character is a a tab, to left characters
             if (line[loopcounter] == '\t')
             {
+                tokens[strcounter][charcounter - 1] = '\t';
                 charcounter = 0;
                 strcounter++;
             }
@@ -98,6 +99,6 @@ char* strip(char *string)
         output[appendcounter] = '\0';
     // Checks if the first character is a space
     if (output[0] == ' ')
-        output[0] = output[1];
+        strcpy(output, &output[1]);
     return output;
 }

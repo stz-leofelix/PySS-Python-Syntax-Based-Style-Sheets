@@ -1,8 +1,9 @@
 def *
+    background-color: yellow
+    color: blue
     padding: 0
     margin: 0
 
-def .main
-    color: blue
-    background-color: black
+def .class
     font-family: sans-serif
+    display: flex
