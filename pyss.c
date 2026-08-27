@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
         lex(input, curline);
         for (int i = 0; tokens[i][0] != '\0'; i++)
         printf("[%s] ", tokens[i]);
-        printf("\\n\n");
+        printf("\n");
     }
     
     parse();
