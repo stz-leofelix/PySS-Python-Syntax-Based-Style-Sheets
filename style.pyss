@@ -1,2 +1,8 @@
-hello hell ohello ha;ldkjfalflajdlaksjdflakjsdflkajdsflkajsldkjf
-welcome to nxrth america
+def *
+    padding: 0
+    margin: 0
+
+def .main
+    color: blue
+    background-color: black
+    font-family: sans-serif
