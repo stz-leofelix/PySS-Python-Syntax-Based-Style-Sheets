@@ -14,7 +14,6 @@ int main(int argc, char *argv[])
     input = fopen("C:\\code\\Practice\\pyss\\style.pyss", "r");
     output = fopen("out.css", "w");
     lex(input);
-    for (int i = 0; tokens[i] != "\0"; i++)
     printf("[%s] ", tokens[i]);
     parse();
     write(output);
