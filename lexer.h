@@ -22,6 +22,14 @@ void lex(FILE *input, char *line)
     strcpy(line, stripped_text);
     free(stripped_text);
 
+    // Checks if the processed line is empty
+    if (strlen(line) == 1 && line[0] == '\n')
+    {
+        tokens[strcounter][0] = '\n';
+        tokens[strcounter][1] = '\0';
+        return;
+    }
+
     // Repeat until the current chracter from the read line is a null terminator
     while (line[loopcounter] != '\0')
     {
@@ -34,7 +42,6 @@ void lex(FILE *input, char *line)
             // If the character is a a tab, to left characters
             if (line[loopcounter] == '\t')
             {
-                tokens[strcounter][charcounter - 1] = '\t';
                 charcounter = 0;
                 strcounter++;
             }
@@ -61,6 +68,12 @@ void lex(FILE *input, char *line)
 // Helper lexer function that strips away uncessary whitespaces
 char* strip(char *string)
 {
+    // Checks if the line is empty
+    if (strlen(string) == 1 && string[0] == '\n')
+    {
+        return "\n";
+    }
+
     // Initialize variables
     int spacecounter = 0;
     int appendcounter = 0;
@@ -95,7 +108,7 @@ char* strip(char *string)
     }
 
     // Checks if the last character is a space
-    if (output[appendcounter - 1] == ' ')
+    if (output[appendcounter] == ' ')
         output[appendcounter] = '\0';
     // Checks if the first character is a space
     if (output[0] == ' ')
