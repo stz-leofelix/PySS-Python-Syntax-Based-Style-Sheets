@@ -9,53 +9,51 @@
 // Helper function prototype
 char* strip(char *string);
 
-// Lexer function that returns tokens in an array of strings (array of chars)
-void lex(FILE *input)
+// Lexer function that populate the tokens according to the line given.
+void lex(FILE *input, char *line)
 {
     // Initialize variables
-    char *strbuffer = malloc(MAXCHAR);
     int loopcounter = 0;
     int strcounter = 0;
     int charcounter = 0;
 
-    // Repeat reading each lines of the input until it reaches the end of the file
-    while (fgets(strbuffer, MAXCHAR, input) != NULL)
-    {
-        // Strip away uncessary whitespaces
-        char *stripped_text = strip(strbuffer);
-        strcpy(strbuffer, stripped_text);
-        free(stripped_text);
+    // Strip away uncessary whitespaces
+    char *stripped_text = strip(line);
+    strcpy(line, stripped_text);
+    free(stripped_text);
 
-        // Repeat until the current chracter from the read line is a null terminator
-        while (strbuffer[loopcounter] != '\0')
-        {
-            // If the current character is a valid character
-            if (strbuffer[loopcounter] != ' ')
-            {   
-                tokens[strcounter][charcounter] = strbuffer[loopcounter];
-                tokens[strcounter][charcounter + 1] = '\0';
-                charcounter++;
-                // If the character is a a tab, to left characters
-                if (strbuffer[loopcounter] == '\t')
-                {
-                    charcounter = 0;
-                    strcounter++;
-                }
-                loopcounter++;
-            }
-            // If the current character is a space
-            else if (strbuffer[loopcounter] == ' ')
+    // Repeat until the current chracter from the read line is a null terminator
+    while (line[loopcounter] != '\0')
+    {
+        // If the current character is a valid character
+        if (line[loopcounter] != ' ')
+        {   
+            tokens[strcounter][charcounter] = line[loopcounter];
+            tokens[strcounter][charcounter + 1] = '\0';
+            charcounter++;
+            // If the character is a a tab, to left characters
+            if (line[loopcounter] == '\t')
             {
-                strcounter++;
                 charcounter = 0;
-                loopcounter++;
+                strcounter++;
             }
+            loopcounter++;
         }
-        strcounter++;
-        loopcounter = 0;
-        charcounter = 0;
+        // If the current character is a space
+        else if (line[loopcounter] == ' ')
+        {
+            strcounter++;
+            charcounter = 0;
+            loopcounter++;
+        }
     }
-    free(strbuffer);
+    // Add the null terminator next to the last token
+    tokens[strcounter][charcounter] = '\0';
+
+    // Modify variables for next use
+    strcounter++;
+    loopcounter = 0;
+    charcounter = 0;
     return;
 }
 
