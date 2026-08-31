@@ -2,6 +2,9 @@
 > [!CAUTION]
 > PySS is in development and the fully working version is not completed yet. Features listed below can be removed, modified or may not ship at all.
 
+> [!NOTE]
+> This project is currently aimed to develop and work on Windows with no support for Unix system, additions on supported OS may come but currently only targeted for Windows.
+
 **PySS** Allows you to create stylesheets like css with more simplicity, less hassle and with more features like
 - No syntax overloads such as `{}`, `;` or `@`
 - Native **Tailwind CSS** support
