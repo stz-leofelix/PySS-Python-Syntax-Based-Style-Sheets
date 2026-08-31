@@ -1,0 +1,106 @@
+# PySS | Python Syntax Based Stylesheets
+> [!CAUTION]
+> PySS is in development and the fully working version is not completed yet. Features listed below can be removed, modified or may not ship at all.
+
+**PySS** Allows you to create stylesheets like css with more simplicity, less hassle and with more features like
+- No syntax overloads such as `{}`, `;` or `@`
+- Native **Tailwind CSS** support
+- Templates for reusing multiple styling rules later
+- Functions for reusing multiple blocks of scripts later
+- Native **LaTeX** support for mathamatical expressions
+- Native **Regex (Regular Expressions)** for advanced keyword matching
+- Native **Markdown** syntax support for advanced text formatting
+- Single line comment support with `// Example comment`
+- Element and rule nesting and parent def recalling
+- Nodes for advanced shapes and structures   
+- Simple breakpoint notation support
+- Object oriented declaration and calling
+
+## PySS Example with CSS
+### PySS
+> The following example PySS script does not include every feature of PySS
+```python
+// Single line comment support
+def * // Simple keyword Property declaration
+    padding, margin = 0 // Property grouping support
+    border, outline, text-decoration = none
+    box-sizing = border-box
+
+def :root
+    --main-color: use color-blue-700 // Object oriented declaration
+
+// Header Styling
+def header
+    use flex justify-between px-10
+    width = 100%
+    use bg-white // Native Tailwind CSS support
+    height = auto
+
+    // Element nesting support
+    def .logo
+        use size-xl
+        color = --main-color // Functionless variable calling
+        transition = .2s
+        def :hover (color = black) // Single-line Property declaration
+    
+    // Navigation styling
+    def .nav
+        color = black
+        use hover:text-grey
+        gap = 10px
+```
+### CSS
+```css
+/* No single line comment support */
+* { /* No simple property declaration */
+    padding: 0; /* No property grouping support */
+    margin: 0; /* Useless ; syntax hassle */
+    border: none;
+    outline: none;
+    text-decoration: none;
+    box-sizing: border-box;
+} /* Useless {} syntax hassle */
+
+:root {
+    --main-color: blue; /* No object oriented declaration support */
+}
+
+/* Header Styling */
+header {
+    /* No native tailwind support */
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10rem;
+    padding-right: 10rem;
+
+    width: 100%;
+    background-color: white;
+    height: auto;
+}
+
+/* Parent recalling and no nesting support */
+header .logo {
+    /* No native tailwind css support */
+    height: 20rem;
+    width: 20rem;
+
+    color: var(--main-color) /* No functionless variable calling */
+    transition: .2s;
+}
+
+/* No nesting pseudoproperty support */
+header .logo:hover {
+    color: black;
+}
+
+/* Navigation Styling */
+header .nav {
+    color: black;
+    /* No nesting pseudoproperty or tailwind css support */
+    gap: 10px;
+}
+
+/* Parent recalling for pseudoproperty and no tailwind css support */
+header .nav:hover {
+    color: grey; /* No tailwind css support */
+}
