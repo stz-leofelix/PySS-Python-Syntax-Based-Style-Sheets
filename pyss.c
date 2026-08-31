@@ -22,9 +22,5 @@ int main(int argc, char *argv[])
         printf("[%s] ", tokens[i]);
         printf("\n");
     }
-    
-    parse();
-    write(output);
-    printf("succes\n");
     return 0;
 }
