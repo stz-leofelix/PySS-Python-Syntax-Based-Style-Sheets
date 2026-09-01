@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 
 /* Node Struct containing
@@ -9,6 +8,7 @@
 typedef struct NODE
 {
     char *type;
+    char *parent;
     char *name;
     char *value;
     int ident;

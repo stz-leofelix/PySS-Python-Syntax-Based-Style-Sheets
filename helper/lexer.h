@@ -55,6 +55,8 @@ void lex(FILE *input, char *line)
     }
     // Add the null terminator next to the last token
     tokens[strcounter][charcounter] = '\0';
+    // Null terminate the last written string.
+    tokens[strcounter + 1][0] = '\0';
 
     // Modify variables for next use
     strcounter++;
@@ -75,7 +77,7 @@ char* strip(char *string)
     // Loop through the entire given string
     for (int i = 0; string[i] != '\0'; i++)
     {
-        // Detects newline and return cartilage
+        // Detects newline, horizontal tab and return cartilage
         if (string[i] == '\n' || string[i] == '\r')
         {
             continue;
