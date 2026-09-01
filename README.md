@@ -9,16 +9,13 @@
 **PySS** Allows you to create stylesheets like css with more simplicity, less hassle and with more features like
 - No syntax overloads such as `{}`, `;` or `@`
 - Native **Tailwind CSS** support
-- Templates for reusing multiple styling rules later
-- Functions for reusing multiple blocks of scripts later
-- Native **LaTeX** support for mathamatical expressions
-- Native **Regex (Regular Expressions)** for advanced keyword matching
-- Native **Markdown** syntax support for advanced text formatting
-- Single line comment support with `// Example comment`
+- Snippets for reusing multiple blocks of scripts or styling later
+- Native **Regex (Regular Expressions)** for advanced property calling
+- Single line comment support with `// Example Comment`
 - Element and rule nesting and parent def recalling
-- Nodes for advanced shapes and structures   
-- Simple breakpoint notation support
-- Object oriented declaration and calling
+- Simple breakpoint notation support (Tailwind CSS)
+- HEX Code alpha support with `/`, `#FFFFFF/FF`
+- Multiproperty declaration such as `padding-x`, `padding-lt`
 > [!IMPORTANT]
 > PySS script isn't supported on any major browsers natively and just like SCSS and SASS, PySS will be converted to native CSS through a compiler made in C.
 
