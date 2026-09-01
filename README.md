@@ -3,6 +3,7 @@
 > PySS is in development and the fully working version is not completed yet. Features listed below can be removed, modified or may not ship at all.
 
 > [!NOTE]
+> This project isn't meant for production use or professional use as this is a hobby project. Will contains alot of bugs and things that won't be fixed anytime soon.
 > This project is currently aimed to develop and work on Windows with no support for Unix system, additions on supported OS may come but currently only targeted for Windows.
 
 **PySS** Allows you to create stylesheets like css with more simplicity, less hassle and with more features like
@@ -18,10 +19,14 @@
 - Nodes for advanced shapes and structures   
 - Simple breakpoint notation support
 - Object oriented declaration and calling
+> [!IMPORTANT]
+> PySS script isn't supported on any major browsers natively and just like SCSS and SASS, PySS will be converted to native CSS through a compiler made in C.
 
 ## PySS Example with CSS
 ### PySS
-> The following example PySS script does not include every feature of PySS
+> [!WARNING]
+> The following example PySS script does not include every feature of PySS.
+> The syntax and rules written in the example PySS script are prone to changes as we reach the first working verison.
 ```python
 // Single line comment support
 def * // Simple keyword Property declaration
