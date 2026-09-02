@@ -18,8 +18,9 @@ void lex(FILE *input, char *line)
     int charcounter = 0;
 
     // If the line is empty
-    if (line[0] == '\n')
+    if (line[0] == '\n' || line[0] == '\r')
     {
+        tokens[0][0] = '\0';
         return;
     }
 
@@ -102,8 +103,8 @@ char* strip(char *string)
     }
 
     // Checks if the last character is a space
-    if (output[appendcounter] == ' ')
-        output[appendcounter] = '\0';
+    if (output[appendcounter - 1] == ' ')
+        output[appendcounter - 1] = '\0';
     // Checks if the first character is a space
     if (output[0] == ' ')
         strcpy(output, &output[1]);

@@ -17,11 +17,11 @@ int main(int argc, char *argv[])
     curline = malloc(1001);
     while (fgets(curline, 1001, input) != NULL)
     {
-        printf("%s", strip(curline));
-        // lex(input, curline);
-        // for (int i = 0; tokens[i][0] != '\0'; i++)
-        // printf("[%s] ", tokens[i]);
-        // printf("\n");
+        // printf("%s", strip(curline));
+        lex(input, curline);
+        for (int i = 0; tokens[i][0] != '\0'; i++)
+        printf("[%s] ", tokens[i]);
+        printf("\n");
     }
     return 0;
 }
