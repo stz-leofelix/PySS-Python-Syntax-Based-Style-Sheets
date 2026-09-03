@@ -1,10 +1,10 @@
 # PySS | Python Syntax Based Stylesheets
 > [!CAUTION]
+> This project isn't meant for production use or professional use as this is a hobby project. Will contains alot of bugs and things that won't be fixed anytime soon.
 > PySS is in development and the fully working version is not completed yet. Features listed below can be removed, modified or may not ship at all.
 
 > [!NOTE]
-> This project isn't meant for production use or professional use as this is a hobby project. Will contains alot of bugs and things that won't be fixed anytime soon.
-> This project is currently aimed to develop and work on Windows with no support for Unix system, additions on supported OS may come but currently only targeted for Windows.
+> This project is currently aimed to develop and work on Windows with no support for Unix based systems, additions on supported OS may come but currently only targeted for Windows.
 
 **PySS** Allows you to create stylesheets like css with more simplicity, less hassle and with more features like
 - No syntax overloads such as `{}`, `;` or `@`
@@ -16,6 +16,7 @@
 - Simple breakpoint notation support (Tailwind CSS)
 - HEX Code alpha support with `/`, `#FFFFFF/FF`
 - Multiproperty declaration such as `padding-x`, `padding-lt`
+- ***And alot more!***
 > [!IMPORTANT]
 > PySS script isn't supported on any major browsers natively and just like SCSS and SASS, PySS will be converted to native CSS through a compiler made in C.
 
@@ -29,7 +30,7 @@
 def * // Simple keyword Property declaration
     padding, margin = 0 // Property grouping support
     border, outline, text-decoration = none
-    box-sizing = border-box
+    box-sizing: border-box
 
 def :root
     --main-color: use color-blue-700 // Object oriented declaration
@@ -37,22 +38,22 @@ def :root
 // Header Styling
 def header
     use flex justify-between px-10
-    width = 100%
+    width: 100%
     use bg-white // Native Tailwind CSS support
-    height = auto
+    height: auto
 
     // Element nesting support
     def .logo
         use size-xl
-        color = --main-color // Functionless variable calling
-        transition = .2s
+        color: --main-color // Functionless variable calling
+        transition: .2s
         def :hover (color = black) // Single-line Property declaration
     
     // Navigation styling
     def .nav
-        color = black
+        color: black
         use hover:text-grey
-        gap = 10px
+        gap: 10px
 ```
 ### CSS
 ```css
