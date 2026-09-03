@@ -66,6 +66,37 @@ void lex(FILE *input, char *line)
     return;
 }
 
+// REWRITING LEX (SUBLEX)
+void sublex(FILE *input, char *line)
+{
+    // Initialize variables
+    int index = 0;
+    int character = 0;
+
+    // Checks if the given line is empty, populate the first token index 0 to \0 if so
+    if (line[0] == '\n' || line[0] == '\r')
+    {
+        tokens[0][0] = '\0';
+        return;
+    }
+
+    // Strips away uncessary things from line before processing
+    char *stripped = strip(line);
+    strcpy(line, stripped);
+    free(stripped);
+
+    // Loop through each characters in given line
+    for (int i = 0; line[i] != '\0'; i++)
+    {
+        // If the charater is not a space (valid character) append so
+        else if (line[i] != ' ')
+        {
+            tokens[index][character] = line[i]; tokens[index][character + 1] = '\0';
+            character++;
+        }
+    }
+}
+
 // Helper lexer function that strips away uncessary whitespaces
 char* strip(char *string)
 {
