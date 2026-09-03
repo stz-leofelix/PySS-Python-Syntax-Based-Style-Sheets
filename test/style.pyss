@@ -1,6 +1,6 @@
 // Single line comment support
 def * // Simple keyword Property declaration
-    padding, margin = 0 // Property grouping support
+    padding, margin =              0 // Property grouping support       
     border, outline, text-decoration = none
     box-sizing = border-box
 

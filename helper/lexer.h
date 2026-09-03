@@ -69,44 +69,45 @@ void lex(FILE *input, char *line)
 // Helper lexer function that strips away uncessary whitespaces
 char* strip(char *string)
 {
-    // Initialize variables
-    int spacecounter = 0;
-    int appendcounter = 0;
-    int charcounter = 0;
-    char* output = malloc(MAXCHAR);
+    // Initialize variable
+    char *output = malloc(MAXCHAR);
+    int character = 0;
+    int space = 0;
+    int append = 0;
 
-    // Loop through the entire given string
+    // Loop through string & append non excess characters (not multiple spaces etc)
     for (int i = 0; string[i] != '\0'; i++)
     {
-        // Detects newline, horizontal tab and return cartilage
+        // Ignore linefeed \n and carriage return \r
         if (string[i] == '\n' || string[i] == '\r')
         {
             continue;
         }
-        // Detects valid characteres
+        // Detects and include identation
+        else if (string[i] == ' ' && character == 0)
+        {
+            // Appends space
+            output[append] = ' '; output[append + 1] = '\0';    
+            append++;
+        }
+        // Detects and include non-whitespace character
         else if (string[i] != ' ')
         {
-            output[appendcounter] = string[i];
-            output[appendcounter + 1] = '\0';
-            charcounter++;
-            appendcounter++;
-            spacecounter = 0;
+            output[append] = string[i]; output[append + 1] = '\0';
+            character++;
+            append++;
+            space = 0;
         }
-        // Detects non trailing whitespace
-        else if (string[i] == ' ' && spacecounter < 1)
+        // Detects and include non trailing whitespace character
+        else if (string[i] == ' ' && space < 1)
         {
-            output[appendcounter] = string[i];
-            output[appendcounter + 1] = '\0';
-            appendcounter++;
-            spacecounter++;
+            output[append] = ' '; output[append + 1] = '\0';
+            append++;
+            space++;
         }
     }
-
-    // Checks if the last character is a space
-    if (output[appendcounter - 1] == ' ')
-        output[appendcounter - 1] = '\0';
-    // Checks if the first character is a space
-    if (output[0] == ' ')
-        strcpy(output, &output[1]);
+    // Strip out the last remaning space if there is a space at the last char
+    if (output[append - 1] == ' ')
+        output[append - 1] = '\0';
     return output;
 }
