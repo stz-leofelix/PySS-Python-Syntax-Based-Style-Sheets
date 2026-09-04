@@ -96,7 +96,7 @@ void sublex(FILE *input, char *line)
     tokens[0][0] = (char) indent; tokens[0][1] = '\0';
 
     // Loop through each characters in given line
-    for (int i = 0; line[i] != '\0'; i++)
+    for (int i = character; line[i] != '\0'; i++)
     {
         // Append valid characters
         if (line[i] != ' ')
