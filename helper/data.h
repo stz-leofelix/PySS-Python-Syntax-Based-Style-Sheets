@@ -11,7 +11,7 @@ typedef struct NODE
     char *parent;
     char *name;
     char *value;
-    int ident;
+    int indent;
 } NODE;
 
 NODE node;

@@ -36,14 +36,14 @@ void parse_selector(void)
 void parse_property(void)
 {
     node.type = "property";
-    node.ident = 1;
+    node.indent = 1;
 
     int value_count = 0;
 
     for (int i = 1; tokens[i] != NULL; i++)
     {
         if (strcmp(tokens[i], "\t"))
-            node.ident++;
+            node.indent++;
         else if (strcmp(tokens[i], "\t") != 0)
         {
             node.name = tokens[i];

@@ -11,7 +11,7 @@ void write(FILE *output)
     }
     else if (strcmp(node.type, "property") == 0)
     {
-        for (int i = 0; i < node.ident; i++)
+        for (int i = 0; i < node.indent; i++)
             fprintf(output, "\t");
         fprintf(output, "%s %s;\n", node.name, node.value);
     }

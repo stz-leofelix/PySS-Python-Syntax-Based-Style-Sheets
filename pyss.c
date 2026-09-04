@@ -18,8 +18,9 @@ int main(int argc, char *argv[])
     while (fgets(curline, 1001, input) != NULL)
     {
         // printf("%s", strip(curline));
-        lex(input, curline);
-        for (int i = 0; tokens[i][0] != '\0'; i++) {
+        sublex(input, curline);
+        printf("[%i] ", tokens[0][0]);
+        for (int i = 1; tokens[i][0] != '\0'; i++) {
             printf("[%s] ", tokens[i]);
         }
         printf("\n");
