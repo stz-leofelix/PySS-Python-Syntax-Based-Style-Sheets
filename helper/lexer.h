@@ -157,6 +157,7 @@ char* strip(char *string)
             space++;
         }
     }
+
     // Strip out the last remaning space if there is a space at the last char
     if (output[append - 1] == ' ')
         output[append - 1] = '\0';
