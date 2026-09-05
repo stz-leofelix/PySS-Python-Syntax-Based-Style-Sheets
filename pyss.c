@@ -1,7 +1,7 @@
-#include "helper/data.h"
-#include "helper/lexer.h"
-#include "helper/parser.h"
-#include "helper/writer.h"
+#include "main/data.h"
+#include "main/lexer.h"
+#include "main/parser.h"
+#include "main/writer.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,13 +17,15 @@ int main(int argc, char *argv[])
     curline = malloc(1001);
     while (fgets(curline, 1001, input) != NULL)
     {
-        // printf("%s", strip(curline));
         sublex(input, curline);
-        printf("[%i] ", tokens[0][0]);
-        for (int i = 1; tokens[i][0] != '\0'; i++) {
-            printf("[%s] ", tokens[i]);
+        if (tokens[0][0] != '\0')
+        {
+            printf("[%i] ", tokens[0][0]);
+            for (int i = 1; tokens[i][0] != '\0'; i++) {
+                printf("[%s] ", tokens[i]);
+            }
+            printf("\n");
         }
-        printf("\n");
     }
     return 0;
 }

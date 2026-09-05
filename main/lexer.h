@@ -85,6 +85,8 @@ void sublex(FILE *input, char *line)
 
     // Strips away uncessary things from line before processing
     char *stripped = strip(line);
+    if (stripped == NULL)
+    return;
     strcpy(line, stripped);
     free(stripped);
 
@@ -122,7 +124,12 @@ void sublex(FILE *input, char *line)
 char* strip(char *string)
 {
     // Initialize variable
-    char *output = malloc(MAXCHAR);
+    char *output = malloc(-88);
+    if (output == NULL)
+    {
+        printf("LexerError: char *output == NULL\n");
+        return NULL;
+    }
     int character = 0;
     int space = 0;
     int append = 0;

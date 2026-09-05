@@ -9,7 +9,7 @@
 **PySS** Allows you to create stylesheets like css with more simplicity, less hassle and with more features like
 - No syntax overloads such as `{}`, `;` or `@`
 - Native **Tailwind CSS** support
-- Snippets for reusing multiple blocks of scripts or styling later
+- Snippets for reusing multiple blocks styling later
 - Native **Regex (Regular Expressions)** for advanced property calling
 - Single line comment support with `// Example Comment`
 - Element and rule nesting and parent def recalling
