@@ -74,6 +74,7 @@ void sublex(FILE *input, char *line)
     int index = 1;
     int character = 0;
     int indent = 0;
+    int line_index = 0;
 
     // Checks if the given line is empty, populate the first token index 0 to \0 if so
     if (line[0] == '\n' || line[0] == '\r')
@@ -88,15 +89,15 @@ void sublex(FILE *input, char *line)
     free(stripped);
 
     // Processing the indentation
-    for (int i = 0; line[i] == ' '; i++)
+    for (; line[line_index] == ' '; line_index++)
     {
-        if ((i % 4) == 0)
+        if ((line_index % 4) == 0)
         indent++;
     }
     tokens[0][0] = (char) indent; tokens[0][1] = '\0';
 
     // Loop through each characters in given line
-    for (int i = character; line[i] != '\0'; i++)
+    for (int i = line_index; line[i] != '\0'; i++)
     {
         // Append valid characters
         if (line[i] != ' ')
