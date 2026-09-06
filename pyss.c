@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     curline = malloc(1001);
     while (fgets(curline, 1001, input) != NULL)
     {
-        sublex(input, curline);
+        lex(input, curline);
         if (tokens[0][0] != '\0')
         {
             printf("[%i] ", tokens[0][0]);

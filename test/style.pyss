@@ -26,3 +26,9 @@ def header
         color: black
         use hover:text-grey
         gap: 10px
+
+def \<regex>\g
+    [hello key="val"]
+
+snip px[size]
+    padding-left, padding-right = [size]

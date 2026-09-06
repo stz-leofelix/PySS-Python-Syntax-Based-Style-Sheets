@@ -14,63 +14,6 @@ char* strip(char *string);
 void lex(FILE *input, char *line)
 {
     // Initialize variables
-    int loopcounter = 0;
-    int strcounter = 0;
-    int charcounter = 0;
-
-    // If the line is empty
-    if (line[0] == '\n' || line[0] == '\r')
-    {
-        tokens[0][0] = '\0';
-        return;
-    }
-
-    // Strip away uncessary whitespaces
-    char *stripped_text = strip(line);
-    strcpy(line, stripped_text) ;
-    free(stripped_text);
-
-    // Repeat until the current chracter from the read line is a null terminator
-    while (line[loopcounter] != '\0')
-    {
-        // If the current character is a valid character
-        if (line[loopcounter] != ' ')
-        {   
-            tokens[strcounter][charcounter] = line[loopcounter];
-            tokens[strcounter][charcounter + 1] = '\0';
-            charcounter++;
-            // If the character is a a tab, to left characters
-            if (line[loopcounter] == '\t')
-            {
-                charcounter = 0;
-                strcounter++;
-            }
-            loopcounter++;
-        }
-        // If the current character is a space
-        else if (line[loopcounter] == ' ')
-        {
-            strcounter++;
-            charcounter = 0;
-            loopcounter++;
-        }
-    }
-    // Add the null terminator next to the last token
-    tokens[strcounter][charcounter] = '\0';
-    // Null terminate the last written string.
-    tokens[strcounter + 1][0] = '\0';
-
-    // Modify variables for next use
-    strcounter++;
-    loopcounter = 0;
-    charcounter = 0;
-    return;
-}
-
-// REWRITING LEX (SUBLEX)
-void sublex(FILE *input, char *line)
-{
-    // Initialize variables
     int index = 1;
     int character = 0;
     int indent = 0;
@@ -124,12 +67,9 @@ void sublex(FILE *input, char *line)
 char* strip(char *string)
 {
     // Initialize variable
-    char *output = malloc(-88);
+    char *output = malloc(MAXCHAR);
     if (output == NULL)
-    {
-        printf("LexerError: char *output == NULL\n");
-        return NULL;
-    }
+    return NULL;
     int character = 0;
     int space = 0;
     int append = 0;
