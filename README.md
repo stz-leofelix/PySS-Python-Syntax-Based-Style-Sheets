@@ -33,26 +33,26 @@ def * // Simple keyword Property declaration
     box-sizing: border-box
 
 def :root
-    --main-color: use color-blue-700 // Object oriented declaration
+    --main-color: apply color-blue-700
 
 // Header Styling
 def header
-    use flex justify-between px-10
+    apply flex justify-between px-10
     width: 100%
     use bg-white // Native Tailwind CSS support
     height: auto
 
     // Element nesting support
     def .logo
-        use size-xl
+        apply size-xl
         color: --main-color // Functionless variable calling
         transition: .2s
-        def :hover (color = black) // Single-line Property declaration
+        def :hover / color = black // Single-line Property declaration
     
     // Navigation styling
     def .nav
         color: black
-        use hover:text-grey
+        apply hover:text-grey
         gap: 10px
 ```
 ### CSS
