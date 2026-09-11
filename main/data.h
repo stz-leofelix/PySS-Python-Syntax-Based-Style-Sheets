@@ -1,4 +1,17 @@
 #include <stdlib.h>
+#include <stdio.h>
+
+FILE *input;
+FILE *output;
+char *input_current_line;
+char *input_filename = "style.pyss";
+
+// Lexical Analyzer, Debug Informations
+int dlexer_line = 0;
+int dlexer_column = 0;
+int dlexer_dline = 0;
+int dlexer_dcolumn = 0;
+int dlexer_dcolumnend = 0;
 
 /* Node Struct containing
     type (selector, property, comment)

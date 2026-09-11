@@ -110,3 +110,4 @@ header .nav {
 header .nav:hover {
     color: grey; /* No tailwind css support */
 }
+```

@@ -8,12 +8,15 @@
 #define MAXCHAR 1001
 
 // Helper function prototype
-char* strip(char *string);
+char *strip(char *string, int *rawindex);
 
 // Lexer function that populate the tokens according to the line given.
 void lex(FILE *input, char *line)
 {
     // Initialize variables
+    char *rawline = malloc(strlen(line) + 1); strcpy(rawline, line);
+    int rawindex = 0;
+    int *rawindex_ptr = &rawindex;
     int index = 1;
     int character = 0;
     int indent = 0;
@@ -23,13 +26,18 @@ void lex(FILE *input, char *line)
     if (line[0] == '\n' || line[0] == '\r')
     {
         tokens[0][0] = '\0';
+        free(rawline);
         return;
     }
 
-    // Strips away uncessary things from line before processing
-    char *stripped = strip(line);
+    // Strips away uncessary whitespaces(non indentation) from line before processing
+    char *stripped = strip(line, rawindex_ptr);
     if (stripped == NULL)
-    return;
+    {
+        free(stripped);
+        free(rawline);
+        return;
+    }
     strcpy(line, stripped);
     free(stripped);
 
@@ -44,8 +52,19 @@ void lex(FILE *input, char *line)
     // Loop through each characters in given line
     for (int i = line_index; line[i] != '\0'; i++)
     {
+        // Append string literals
+        if (line[i] == '"' || line[i] == '\'')
+        {
+            char quote = line[i]; i++;
+            tokens[index][character] = quote; tokens[index][character + 1] = '\0'; character++;
+            for (; line[i] != quote; i++)
+            {
+                tokens[index][character] = line[i]; tokens[index][character + 1] = '\0'; character++;
+            }
+            tokens[index][character] = quote; tokens[index][character + 1] = '\0'; index++; character++;
+        }
         // Append valid characters
-        if (line[i] != ' ')
+        else if (line[i] != ' ')
         {
             tokens[index][character] = line[i]; tokens[index][character + 1] = '\0';
             character++;
@@ -64,7 +83,7 @@ void lex(FILE *input, char *line)
 }
 
 // Helper lexer function that strips away uncessary whitespaces
-char* strip(char *string)
+char *strip(char *string, int *rawindex)
 {
     // Initialize variable
     char *output = malloc(MAXCHAR);
@@ -75,21 +94,32 @@ char* strip(char *string)
     int append = 0;
 
     // Loop through string & append non excess characters (not multiple spaces etc)
-    for (int i = 0; string[i] != '\0'; i++)
+    for (int i = 0; string[i] != '\0'; i++, (*rawindex)++)
     {
         // Ignore linefeed \n and carriage return \r
         if (string[i] == '\n' || string[i] == '\r')
         {
             continue;
         }
-        // Detects and include identation
+        // Detects string literals
+        else if (string[i] == '"' || string[i] == '\'')
+        {
+            char quote = string[i];
+            output[append] = quote; output[append + 1] = '\0'; append++; i++;
+            for (; string[i] != quote; i++)
+            {
+                output[append] = string[i]; output[append + 1] = '\0'; append++;
+            }
+            output[append] = quote; output[append + 1] = '\0';  append++;
+        }
+        // Detects indentation
         else if (string[i] == ' ' && character == 0)
         {
             // Appends space
             output[append] = ' '; output[append + 1] = '\0';    
             append++;
         }
-        // Detects and include non-whitespace character
+        // Detects non-whitespace character
         else if (string[i] != ' ')
         {
             output[append] = string[i]; output[append + 1] = '\0';
@@ -97,7 +127,7 @@ char* strip(char *string)
             append++;
             space = 0;
         }
-        // Detects and include non trailing whitespace character
+        // Detects non trailing whitespace character
         else if (string[i] == ' ' && space < 1)
         {
             output[append] = ' '; output[append + 1] = '\0';
@@ -109,5 +139,6 @@ char* strip(char *string)
     // Strip out the last remaning space if there is a space at the last char
     if (output[append - 1] == ' ')
         output[append - 1] = '\0';
+
     return output;
 }
