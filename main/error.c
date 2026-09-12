@@ -22,11 +22,6 @@
 #define PRINT_COLOR(color, text) color text RESET
 
 #endif
-int dlexer_line = 784;
-int dlexer_column = 0;
-int dlexer_dline = 0;
-int dlexer_dcolumn = 0;
-int dlexer_dcolumnend = 0;
 
 int fatality = 0;
 
@@ -35,7 +30,7 @@ void error_exception(int code);
 void error_lexer(int code);
 
 // Helper Functions
-int dprintln(char *line, int line_number, int column_start, int column_end)
+int dprintln(char *line, unsigned int line_number, unsigned int column_start, unsigned int column_end)
 {
     // Adjust line padding
     int line_digit = snprintf(NULL, 0, "%d", line_number);
@@ -57,6 +52,11 @@ int dprintln(char *line, int line_number, int column_start, int column_end)
 
     printf(BOLD CYAN"\n%*c  | "RESET, line_indent, NULL);
     return line_indent;
+}
+
+int main(void)
+{
+    error_lexer(1);
 }
 
 void error_exception(int code)
@@ -85,12 +85,19 @@ void error_exception(int code)
 void error_lexer(int code)
 {
     // Print Error "LexerError: " filename:line:column
-    printf(BOLD RED"LexerError: "RESET"%s:%i:%i\n", input_filename, dlexer_dline, dlexer_dcolumn);
+    printf(BOLD RED"LexerError: "RESET"%s:%i:%i\n", "pyss.c", 123, 9);
 
     switch (code) {
+        case 0:
+            dprintln("content: \"literally", 100000000000, 18, 18);
+            printf(BOLD RED"Unknown LexerError occoured. "RESET"The last character read is given above.\n");
+            fatality = 1;
+            break;
+
         case 1:
-            dprintln(input_current_line, dlexer_dline, dlexer_dcolumn, dlexer_dcolumnend);
-            printf("Expected closing quote for string\n");
+            dprintln("content: \"litearlly", 123, 9, 18);
+            printf(BOLD RED"Expected closing quote for string, "RESET"Perhaps Did you forget a "BOLD GREEN"' "RESET"or "BOLD GREEN"\""RESET" ?\n");
+            fatality = 1;
             break;
     }
 }

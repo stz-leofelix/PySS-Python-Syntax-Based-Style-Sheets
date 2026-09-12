@@ -7,4 +7,5 @@
 # Lexer Error Codes
 | Code | For |
 | --- | --- |
+| 0 | For unkown error or ultra rare cases, output the last character the Lexical Analyzer was able to read successfully |
 | 1 | For detecting starting quote for strings in lexer but does not detect closing quote. |
