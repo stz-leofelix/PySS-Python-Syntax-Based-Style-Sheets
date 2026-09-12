@@ -2,8 +2,9 @@
 | Code | For |
 | --- | --- |
 | 0 | Unknown Errors, undocumentaed, or ultra rare cases |
-| 1 | Read errors, when reading from a file is impossible in anyway |
-| 2 | Write errors, when writing to a file is impossible in anyway |
+| 1 | When memory allocations malloc() returned null |
+| 2 | Read errors, when reading from a file is impossible in anyway |
+| 3 | Write errors, when writing to a file is impossible in anyway |
 # Lexer Error Codes
 | Code | For |
 | --- | --- |
