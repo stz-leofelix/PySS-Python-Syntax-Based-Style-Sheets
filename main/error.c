@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include "data.h"
+#include <stdlib.h>
+// #include "data.h"
 
 #ifndef ANSI_COLORS_H
 #define ANSI_COLORS_H
@@ -39,12 +40,27 @@ int dprintln(char *line, unsigned int line_number, unsigned int column_start, un
     int line_digit = snprintf(NULL, 0, "%d", line_number);
     unsigned int line_indent = (line_digit < 4) ? 4 : line_digit;
 
-    // Preparing underline variable to print
+    // Preparing variables to print
+    // Underline, error highlighting
     char *underline = malloc(strlen(line) + 1);
+    if (underline == NULL)
+    error_exception(1);
     for (int i = 0; i < column_start; i++)
     underline[i] = ' ';
     for (int i = column_start; i <= column_end; i++) {
     underline[i] = '~'; underline[i + 1] = '\0'; }
+    // Truncated lines to print
+    char *truncated_lineStart = strnl_trunc(line);
+    char *truncated_lineError = strnl_trunc(line + column_start);
+    // Error on strnl_trunc() function call check
+    if (truncated_lineStart == NULL || truncated_lineError == NULL) {
+    // exception call handled inside strnl_trunc function
+    free(truncated_lineStart);
+    free(truncated_lineError);
+    free(underline);
+    return 0;
+    }
+    // char *truncated_lineAfter = NULL; // TODO
     
     // Print line header
     printf(
@@ -53,32 +69,39 @@ int dprintln(char *line, unsigned int line_number, unsigned int column_start, un
         "%*c  |"RED"%s\n"
         BOLD CYAN"%*c  | "RESET,
         line_indent, "Line", 
-        line_indent, line_number, column_start - 1, line, column_end - (column_start - 1), line + column_start, 
-        line_indent, NULL, underline,
-        line_indent, NULL
+        line_indent, line_number, column_start - 1, truncated_lineStart, column_end - (column_start - 1), truncated_lineError, 
+        line_indent, ' ', underline,
+        line_indent, ' '
     );
 
     free(underline);
+    free(truncated_lineStart);
+    free(truncated_lineError);
     return line_indent;
 }
 char *strnl_trunc(char *line)
 {
+    // Allocate and copy line to truncline
     char *truncline = malloc(strlen(line) + 1);
     if (truncline == NULL) {
         error_exception(1);
         return NULL;
     }
     strcpy(truncline, line);
-    printf("DDD%s", truncline);
+
+    // Find the line feed and null terminator
     int i = 0;
-    while (truncline[i] != '\0' || truncline[i] != '\n') {i++;}
+    for (; truncline[i] != '\0' && truncline[i] != '\n'; i++) {}
+
+    // Nulltermminate string at given null terminator or at newline
+    // Cut string's newline to null terminate if exist
     truncline[i] = '\0';
     return truncline;
 }
 
 int main(void)
 {
-    error_lexer(1);
+    error_lexer(0);
     return fatality;
 }
 
@@ -94,7 +117,7 @@ void error_exception(int code)
             break;
         
         case 1:
-            printf("Not enough memory avaiable for required task.\n");
+            printf("Not enough memory available for required task.\n");
             fatality = 1;
             break;
 
