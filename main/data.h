@@ -1,3 +1,6 @@
+#ifndef PYSS_DATA_H
+#define PYSS_DATA_H
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -32,3 +35,5 @@ NODE node;
 // Global Variables
 // Tokens lexer will use and other functions will obtain
 char tokens[1000][100];
+
+#endif

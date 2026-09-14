@@ -9,7 +9,7 @@
 
 int main(int argc, char *argv[])
 {
-    error_lexer(1);
+    error_exception(1);
 
     // input = fopen("C:\\code\\Practice\\pyss\\test\\style.pyss", "r");
     // output = fopen("test\\out.css", "w");

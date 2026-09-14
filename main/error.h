@@ -123,12 +123,6 @@ char *strnl_trunc(char *line)
     return truncline;
 }
 
-int main(void)
-{
-    error_exception(0);
-    return fatality;
-}
-
 void error_exception(int code)
 {
     // Print "ExceptionError" Start
