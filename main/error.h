@@ -33,32 +33,55 @@ int fatality = 0;
 void error_exception(int code);
 void error_lexer(int code);
 
-// Helper Functions
+// Printing flavoured message function
+void dprintn(unsigned int type, char *msg)
+{
+    switch (type) {
+        case 0:
+            printf(BOLD CYAN"~ | "RESET"%s", msg);
+            break;
+        
+        case 1:
+            printf(BOLD BLUE"Note | "RESET"%s", msg);
+            break;
+        
+        case 2:
+            printf(BOLD GREEN"Tip | "RESET"%s", msg);
+            break;
+
+        case 3:
+            printf(BOLD YELLOW"Warning | "RESET"%s", msg);
+            break;
+    }
+}
+// Printing line function
 int dprintln(char *line, unsigned int line_number, unsigned int column_start, unsigned int column_end)
 {
     // Adjust line padding
     int line_digit = snprintf(NULL, 0, "%d", line_number);
     unsigned int line_indent = (line_digit < 4) ? 4 : line_digit;
 
-    // Preparing variables to print
     // Underline, error highlighting
     char *underline = malloc(strlen(line) + 1);
-    if (underline == NULL)
-    error_exception(1);
+    if (underline == NULL) {
+        error_exception(1);
+        return 0;
+    }
     for (int i = 0; i < column_start; i++)
     underline[i] = ' ';
     for (int i = column_start; i <= column_end; i++) {
     underline[i] = '~'; underline[i + 1] = '\0'; }
+
     // Truncated lines to print
     char *truncated_lineStart = strnl_trunc(line);
     char *truncated_lineError = strnl_trunc(line + column_start);
+
     // Error on strnl_trunc() function call check
     if (truncated_lineStart == NULL || truncated_lineError == NULL) {
-    // exception call handled inside strnl_trunc function
-    free(truncated_lineStart);
-    free(truncated_lineError);
-    free(underline);
-    return 0;
+        free(truncated_lineStart);
+        free(truncated_lineError);
+        free(underline);
+        return 0;
     }
     // char *truncated_lineAfter = NULL; // TODO
     
@@ -66,8 +89,8 @@ int dprintln(char *line, unsigned int line_number, unsigned int column_start, un
     printf(
         BOLD CYAN"%-*s |\n"
         "%*i | "RESET"%.*s"BOLD CYAN"%.*s\n"
-        "%*c  |"RED"%s\n"
-        BOLD CYAN"%*c  | "RESET,
+        "%*c |"RED"%s\n"
+        BOLD CYAN"%*c | "RESET,
         line_indent, "Line", 
         line_indent, line_number, column_start - 1, truncated_lineStart, column_end - (column_start - 1), truncated_lineError, 
         line_indent, ' ', underline,
@@ -79,6 +102,7 @@ int dprintln(char *line, unsigned int line_number, unsigned int column_start, un
     free(truncated_lineError);
     return line_indent;
 }
+// Truncating \n from string function
 char *strnl_trunc(char *line)
 {
     // Allocate and copy line to truncline
@@ -99,12 +123,6 @@ char *strnl_trunc(char *line)
     return truncline;
 }
 
-int main(void)
-{
-    error_lexer(0);
-    return fatality;
-}
-
 void error_exception(int code)
 {
     // Print "ExceptionError" Start
@@ -113,21 +131,25 @@ void error_exception(int code)
     switch (code) {
         case 0:
             printf("An unknown error has occured.\n");
+            dprintn(1, "This error is likely indicating a known problem that haven't been prepared for the error printing process yet.\n");
             fatality = 1;
             break;
         
         case 1:
             printf("Not enough memory available for required task.\n");
+            dprintn(2, "Try cleaning up memory or restarting your session.\n");
             fatality = 1;
             break;
 
         case 2:
             printf("Read error occured, unable to read from specified file.\n");
+            dprintn(2, "Make sure Snakey have permission to read from the file.\n");
             fatality = 1;
             break;
         
         case 3:
             printf("Write error occured, unable to write to specified file.\n");
+            dprintn(2, "Make sure Snakey have permission to write to the file.\n");
             fatality = 1;
             break;
     }
