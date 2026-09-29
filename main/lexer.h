@@ -3,9 +3,10 @@
 #include <stdio.h>
 #include <ctype.h>
 #include "data.h"
+#include "error.h"
 
 // Program Macros
-#define MAXCHAR 1001
+#define MAXTOKENCHAR 1001
 
 // Helper function prototype
 char *strip(char *string, int *rawindex);
@@ -23,17 +24,15 @@ void lex(FILE *input, char *line)
     int line_index = 0;
 
     // Checks if the given line is empty, populate the first token index 0 to \0 if so
-    if (line[0] == '\n' || line[0] == '\r')
-    {
-        tokens[0][0] = '\0';
+    if (line[0] == '\n' || line[0] == '\r') {
+        tokens[1][0] = '\0';
         free(rawline);
         return;
     }
 
     // Strips away uncessary whitespaces(non indentation) from line before processing
     char *stripped = strip(line, rawindex_ptr);
-    if (stripped == NULL)
-    {
+    if (stripped == NULL) {
         free(stripped);
         free(rawline);
         return;
@@ -42,36 +41,30 @@ void lex(FILE *input, char *line)
     free(stripped);
 
     // Processing the indentation
-    for (; line[line_index] == ' '; line_index++)
-    {
+    for (; line[line_index] == ' '; line_index++) {
         if ((line_index % 4) == 0)
         indent++;
     }
     tokens[0][0] = (char) indent; tokens[0][1] = '\0';
 
     // Loop through each characters in given line
-    for (int i = line_index; line[i] != '\0'; i++)
-    {
+    for (int i = line_index; line[i] != '\0'; i++) {
         // Append string literals
-        if (line[i] == '"' || line[i] == '\'')
-        {
+        if (line[i] == '"' || line[i] == '\'') {
             char quote = line[i]; i++;
             tokens[index][character] = quote; tokens[index][character + 1] = '\0'; character++;
-            for (; line[i] != quote; i++)
-            {
+            for (; line[i] != quote; i++) {
                 tokens[index][character] = line[i]; tokens[index][character + 1] = '\0'; character++;
             }
             tokens[index][character] = quote; tokens[index][character + 1] = '\0'; index++; character++;
         }
         // Append valid characters
-        else if (line[i] != ' ')
-        {
+        else if (line[i] != ' ') {
             tokens[index][character] = line[i]; tokens[index][character + 1] = '\0';
             character++;
         }
         // Advance index if character is space
-        else if (line[i] == ' ')
-        {
+        else if (line[i] == ' ') {
             index++;
             character = 0;
         }
@@ -86,9 +79,9 @@ void lex(FILE *input, char *line)
 char *strip(char *string, int *rawindex)
 {
     // Initialize variable
-    char *output = malloc(MAXCHAR);
+    char *output = malloc(MAXTOKENCHAR);
     if (output == NULL)
-    return NULL;
+    error_exception(1);
     int character = 0;
     int space = 0;
     int append = 0;
@@ -104,10 +97,25 @@ char *strip(char *string, int *rawindex)
         // Detects string literals
         else if (string[i] == '"' || string[i] == '\'')
         {
+            // Initialize debugging information for potential no closing quote
+            dlexer_dlinenum = dlexer_linenum;
+            dlexer_dline = malloc(strlen(string) + 1);
+            strcpy(dlexer_dline, string);
+            dlexer_dcolumn = i;
+
             char quote = string[i];
             output[append] = quote; output[append + 1] = '\0'; append++; i++;
             for (; string[i] != quote; i++)
             {
+                if (string[i] == '\0') {
+                    int end_column = i;
+                    while (end_column > dlexer_dcolumn &&
+                           (string[end_column - 1] == '\n' || string[end_column - 1] == '\r'))
+                        end_column--;
+                    dlexer_dcolumnend = end_column > dlexer_dcolumn ? end_column - 1 : dlexer_dcolumn;
+                    error_lexer(1);
+                    return NULL;
+                }
                 output[append] = string[i]; output[append + 1] = '\0'; append++;
             }
             output[append] = quote; output[append + 1] = '\0';  append++;
@@ -140,5 +148,7 @@ char *strip(char *string, int *rawindex)
     if (output[append - 1] == ' ')
         output[append - 1] = '\0';
 
+    // Advancing debugging information variables
+    dlexer_linenum++;
     return output;
 }

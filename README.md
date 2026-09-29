@@ -3,9 +3,6 @@
 > This project isn't meant for production use or professional use as this is a hobby project. Will contains alot of bugs and things that won't be fixed anytime soon.
 > PySS is in development and the fully working version is not completed yet. Features listed below can be removed, modified or may not ship at all.
 
-> [!NOTE]
-> This project is currently aimed to develop and work on Windows with no support for Unix based systems, additions on supported OS may come but currently only targeted for Windows.
-
 **PySS** Allows you to create stylesheets like css with more simplicity, less hassle and with more features like
 - No syntax overloads such as `{}`, `;` or `@`
 - Native **Tailwind CSS** support
@@ -17,8 +14,6 @@
 - HEX Code alpha support with `/`, `#FFFFFF/FF`
 - Multiproperty declaration such as `padding-x`, `padding-lt`
 - ***And alot more!***
-> [!IMPORTANT]
-> PySS script isn't supported on any major browsers natively and just like SCSS and SASS, PySS will be converted to native CSS through a compiler made in C.
 
 ## PySS Example with CSS
 ### PySS
@@ -30,7 +25,7 @@
 def * // Simple keyword Property declaration
     padding, margin = 0 // Property grouping support
     border, outline, text-decoration = none
-    box-sizing: border-box
+    box-sizing: borxder-box
 
 def :root
     --main-color: apply color-blue-700

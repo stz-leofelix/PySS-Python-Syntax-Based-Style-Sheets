@@ -1,20 +1,15 @@
-#ifndef PYSS_DATA_H
-#define PYSS_DATA_H
-
 #include <stdlib.h>
 #include <stdio.h>
 
-FILE *input;
-FILE *output;
-char *input_current_line;
-char *input_filename = "style.pyss";
+#define MAXTOKENCHAR 1001
+#define MAXTOKENS 100
 
-// Lexical Analyzer, Debug Informations
-int dlexer_line = 0;
-int dlexer_column = 0;
-int dlexer_dline = 0;
-int dlexer_dcolumn = 0;
-int dlexer_dcolumnend = 0;
+extern FILE *input, *output;
+extern char *input_curline, *input_filename;
+
+// Lexical Analyzer, Debug Informations (For lexer.h)
+extern int dlexer_column, dlexer_linenum, dlexer_dlinenum, dlexer_dcolumn, dlexer_dcolumnend;
+extern char *dlexer_line, *dlexer_dline;
 
 /* Node Struct containing
     type (selector, property, comment)
@@ -34,6 +29,4 @@ NODE node;
 
 // Global Variables
 // Tokens lexer will use and other functions will obtain
-char tokens[1000][100];
-
-#endif
+char tokens[MAXTOKENCHAR][MAXTOKENS];
