@@ -78,6 +78,9 @@ void lex(FILE *input, char *line)
 // Helper lexer function that strips away uncessary whitespaces
 char *strip(char *string, int *rawindex)
 {
+    // Advance line counter
+    dlexer_linenum++;
+
     // Initialize variable
     char *output = malloc(MAXTOKENCHAR);
     if (output == NULL)
@@ -120,6 +123,56 @@ char *strip(char *string, int *rawindex)
             }
             output[append] = quote; output[append + 1] = '\0';  append++;
         }
+        // Detects parenthesis
+        else if (string[i] == '(')
+        {
+            // Initialize debugging information for potential no closing parenthesis
+            dlexer_dlinenum = dlexer_linenum;
+            dlexer_dline = malloc(strlen(string) + 1);
+            strcpy(dlexer_dline, string);
+            dlexer_dcolumn = i;
+
+            output[append] = '('; output[append + 1] = '\0'; append++; i++;
+            for (; string[i] != ')'; i++)
+            {
+                if (string[i] == '\0') {
+                    int end_column = i;
+                    while (end_column > dlexer_dcolumn &&
+                           (string[end_column - 1] == '\n' || string[end_column - 1] == '\r'))
+                        end_column--;
+                    dlexer_dcolumnend = end_column > dlexer_dcolumn ? end_column - 1 : dlexer_dcolumn;
+                    error_lexer(2);
+                    return NULL;
+                }
+                output[append] = string[i]; output[append + 1] = '\0'; append++;
+            }
+            output[append] = ')'; output[append + 1] = '\0';  append++;
+        }
+        // Detects brackets
+        else if (string[i] == '(')
+        {
+            // Initialize debugging information for potential no closing parenthesis
+            dlexer_dlinenum = dlexer_linenum;
+            dlexer_dline = malloc(strlen(string) + 1);
+            strcpy(dlexer_dline, string);
+            dlexer_dcolumn = i;
+
+            output[append] = '('; output[append + 1] = '\0'; append++; i++;
+            for (; string[i] != ')'; i++)
+            {
+                if (string[i] == '\0') {
+                    int end_column = i;
+                    while (end_column > dlexer_dcolumn &&
+                           (string[end_column - 1] == '\n' || string[end_column - 1] == '\r'))
+                        end_column--;
+                    dlexer_dcolumnend = end_column > dlexer_dcolumn ? end_column - 1 : dlexer_dcolumn;
+                    error_lexer(2);
+                    return NULL;
+                }
+                output[append] = string[i]; output[append + 1] = '\0'; append++;
+            }
+            output[append] = ')'; output[append + 1] = '\0';  append++;
+        }
         // Detects indentation
         else if (string[i] == ' ' && character == 0)
         {
@@ -149,6 +202,5 @@ char *strip(char *string, int *rawindex)
         output[append - 1] = '\0';
 
     // Advancing debugging information variables
-    dlexer_linenum++;
     return output;
 }

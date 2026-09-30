@@ -11,6 +11,8 @@ extern char *input_curline, *input_filename;
 extern int dlexer_column, dlexer_linenum, dlexer_dlinenum, dlexer_dcolumn, dlexer_dcolumnend;
 extern char *dlexer_line, *dlexer_dline;
 
+#ifndef NODE_STRUCT_IMP
+#define NODE_STRUCT_IMP
 /* Node Struct containing
     type (selector, property, comment)
     name (data about the top level name either root in def or property name)
@@ -26,6 +28,7 @@ typedef struct NODE
 } NODE;
 
 NODE node;
+#endif
 
 // Global Variables
 // Tokens lexer will use and other functions will obtain

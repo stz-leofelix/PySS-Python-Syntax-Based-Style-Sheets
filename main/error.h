@@ -30,28 +30,28 @@
 #define BOLD    "\x1b[1m"
 #define DIM     "\x1b[2m"
 
-#define PRINT_COLOR(color, text) color text RESET
-
 // Function prototypes
 char *strnl_trunc(char *line);
 int strlspc(char *line);
 
+// Global Variable
 int fatality = 0;
+int printind = 4;
 
 // Error Functions
 void error_exception(int code);
-// void error_lexer(int code);
+int queryind(char *associates);
 
 // Printing flavoured message function
 void dprintn(int type, int indent)
 {
     switch (type) {
         case 0:
-            fprintf(stderr, BOLD CYAN"%*c │ "RESET, indent, ' ');
+            fprintf(stderr, BOLD BLUE"%*c │ "RESET, indent, ' ');
             break;
         
         case 1:
-            fprintf(stderr, BOLD BLUE"%*s │ "RESET, indent, "Note");
+            fprintf(stderr, BOLD CYAN"%*s │ "RESET, indent, "Note");
             break;
         
         case 2:
@@ -62,6 +62,7 @@ void dprintn(int type, int indent)
             fprintf(stderr, BOLD YELLOW"%*s │ "RESET, indent, "Caution");
             break;
     }
+    return;
 }
 // Printing line function
 int dprintln(char *line, unsigned int line_number, unsigned int column_start, unsigned int column_end)
@@ -81,7 +82,7 @@ int dprintln(char *line, unsigned int line_number, unsigned int column_start, un
     unsigned int line_indent = (line_digit < 4) ? 4 : line_digit;
 
     // Underline, error highlighting
-    char *underline = malloc(strlen(line) + 1);
+    char *underline = malloc(strlen(lncpy) + 1);
     if (underline == NULL) {
         free(lncpy);
         error_exception(1);
@@ -89,7 +90,8 @@ int dprintln(char *line, unsigned int line_number, unsigned int column_start, un
     }
     for (int i = 0; i < column_start; i++)
     underline[i] = ' ';
-    for (int i = column_start; i <= column_end; i++) {
+    underline[column_start] = '^';
+    for (int i = column_start + 1; i <= column_end; i++) {
     underline[i] = '~'; underline[i + 1] = '\0'; }
    
     // Print line header
@@ -161,6 +163,11 @@ int strlspc(char *line)
     lncpy += space;
     return space;
 }
+// Querying the indentation(padding) for error printing process
+int queryind(char *associates)
+{
+    return 5;
+}
 
 void error_exception(int code)
 {
@@ -188,12 +195,13 @@ void error_exception(int code)
             fatality = 1;
             break;
     }
+    return;
 }
 
 void error_lexer(int code)
 {
     // Print Error "LexerError: " filename:line:column
-    fprintf(stderr, BOLD RED"LexerError: "RESET"%s:%i:%i\n", "style.pyss", dlexer_dlinenum, dlexer_dcolumn + 1);
+    fprintf(stderr, BOLD RED"LexerError: %s:%i:%i\n", "style.pyss", dlexer_dlinenum, dlexer_dcolumn + 1);
 
     switch (code) {
         case 0:
@@ -203,14 +211,24 @@ void error_lexer(int code)
             break;
 
         case 1:
-            unsigned int indent = dprintln(dlexer_dline, dlexer_dlinenum, dlexer_dcolumn, dlexer_dcolumnend);
+            printind = dprintln(dlexer_dline, dlexer_dlinenum, dlexer_dcolumn, dlexer_dcolumnend);
             char quote = dlexer_dline[dlexer_dcolumn];
             fprintf(stderr, BOLD RED"Expected closing quote for string. \n"RESET);
-            dprintn(2, indent);
+            dprintn(2, printind);
             fprintf(stderr, RESET"Perhaps did you forget a "BOLD GREEN"%c"RESET" ?\n", quote);
             fatality = 1;
             break;
+        
+        case 2:
+            printind = dprintln(dlexer_dline, dlexer_dlinenum, dlexer_dcolumn, dlexer_dcolumnend);
+            fprintf(stderr, BOLD RED"Expected closing parenthesis.\n"RESET);
+            dprintn(2, printind);
+            fprintf(stderr, RESET"Perhaps did you forget a "BOLD GREEN")"RESET" ?\n");
+            fatality = 1;
+            break;
     }
+    fprintf(stderr, "\n");
+    return;
 }
 
 #endif
