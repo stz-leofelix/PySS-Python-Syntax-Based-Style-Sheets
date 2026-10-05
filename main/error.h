@@ -213,7 +213,7 @@ void error_lexer(int code)
         case 1:
             printind = dprintln(dlexer_dline, dlexer_dlinenum, dlexer_dcolumn, dlexer_dcolumnend);
             char quote = dlexer_dline[dlexer_dcolumn];
-            fprintf(stderr, BOLD RED"Expected closing quote for string. \n"RESET);
+            fprintf(stderr, BOLD RED"Expected closing quote for string.\n"RESET);
             dprintn(2, printind);
             fprintf(stderr, RESET"Perhaps did you forget a "BOLD GREEN"%c"RESET" ?\n", quote);
             fatality = 1;
